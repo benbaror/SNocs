@@ -18,15 +18,9 @@ Usage:
 
 snocs [SconscriptFilePath] [options]
 
-Examples:
-
-    snocs .. compiler=vc9 platform=x86 configuration=Debug
-    snocs test -Q           #builds and runs tests with reduced log
-    snocs install -c        #cleans installation
-    
 SconscriptFilePath can be absolute or relative to current path or 
 relative to workspace root directory e.g.:
-    
+
     snocs github.com\osblinnikov\snocs\examples\helloWorld compiler=vc9 test
 
 Available SNocs options:
@@ -37,4 +31,13 @@ Available SNocs options:
     verbose=1 # enables scons debug output
 
 Other options could be specific for SCons. 
-If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. During test phase of building, SNocs extends it's LD_LIBRARY_PATH to provide searching for shared libraries
+
+Examples:
+
+    snocs .. compiler=vc9 platform=x86 configuration=Debug
+    snocs test -Q           #builds and runs tests with reduced log
+    snocs install -c        #cleans installation
+
+If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. 
+
+During test phase of building, SNocs extends it's LD_LIBRARY_PATH to provide searching for shared libraries
