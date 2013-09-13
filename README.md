@@ -1,7 +1,7 @@
 snocs
 =====
 
-Snocs is a little wrapper on SCons Software Construction tool
+Snocs is a little wrapper on SCons Software Construction tool (www.scons.org)
 
 If you found SCons too low level then Snocs will help you to rise the level of abstraction for the C/C++ development
 
