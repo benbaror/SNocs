@@ -37,4 +37,4 @@ Available SNocs options:
     verbose=1 # enables scons debug output
 
 Other options could be specific for SCons. 
-If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. During test phase of building, SNocs extends it's LD_LIBRARY_PATH to provide searching of shared libraries
+If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. During test phase of building, SNocs extends it's LD_LIBRARY_PATH to provide searching for shared libraries
