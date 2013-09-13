@@ -8,7 +8,7 @@ If you find SCons low level system then SNocs will help you to boost your effici
 SNocs simplifies SCons project configuration:
 
 1. SNocs is able to build any project from user's workspace even you are not in project directory.
-2. User can set dependencies in SConscript that SNocs will automatically build.
+2. User can set dependencies in SConscript that SNocs will automatically build them.
 3. SNocs allows user to choose compiler, platform and configuration in command line.
 4. SNocs enables you to set up Unit tests for the project.
 5. SNocs is integrated into golang workspace structure. (http://golang.org/doc/code.html)
