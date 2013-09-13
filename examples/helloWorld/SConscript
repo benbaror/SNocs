@@ -41,5 +41,5 @@ AddOrdering(args,
     #PATH TO THE PROJECT ABOVE:
     #os.path.join(os.path.abspath(args['SCONSCRIPT_PATH']+'/../'),'template')
     #it is better to specify the full path like:
-    os.path.join(args['PROJECTS_SRC_PATH'],'github.com','osblinnikov','snocs','examples','template')
+    os.path.join(args['PROJECTS_SRC_PATH'],'github.com','osblinnikov','SNocs','examples','template')
 )#this function orders the build, but not includes the lib fil

@@ -21,7 +21,7 @@ snocs [SconscriptFilePath] [options]
 SconscriptFilePath can be absolute or relative to current path or 
 relative to workspace root directory e.g.:
 
-    snocs github.com\osblinnikov\snocs\examples\helloWorld compiler=vc9 test
+    snocs github.com\osblinnikov\SNocs\examples\helloWorld compiler=vc9 test
 
 Available SNocs options:
 
