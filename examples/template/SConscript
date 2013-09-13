@@ -1,0 +1,42 @@
+import os.path
+import sys
+from helper import *
+#--------------------------------------
+#           Environment
+#--------------------------------------
+Import( 'env', 'args' )        # Import the common environment
+#--------------------------------------
+#            PROJECT
+#--------------------------------------
+PROGFileName = 'SnocsTemplateTest'+args['ARCHITECTURE_CODE']
+args['prj_env'] = env.Clone()          # Clone it so we don't make changes to the global one
+SOURCES =  PrefixSources(args, 'src', [
+    'possible_templates_test.c'
+])
+args['prj_env'].Append(
+    LIBPATH = [],#snocs dependencies can be managed via AddDependency function
+    LIBS = [],#snocs dependencies can be managed via AddDependency function
+    LINKFLAGS = [],
+    CPPPATH = [os.path.join(args['SCONSCRIPT_PATH'],'include')],
+    CPPDEFINES = ['SnocsTemplateExports'], #define for export functions from shared lib
+    CCFLAGS = []
+)
+prj_build = PrefixSharedLibrary(env, args, PROGFileName, SOURCES )
+Default(prj_build);
+
+#--------------------------------------
+#             TESTS
+#--------------------------------------
+TESTPROGFileName = PROGFileName+"_test"
+args['prj_env'] = env.Clone()          # Clone it so we don't make changes to the global one
+SOURCES = PrefixSources(args, 'tests', [
+    'possible_templates_test_main.c'
+])
+args['prj_env'].Append(CPPPATH = [os.path.join(args['SCONSCRIPT_PATH'],'include')])
+tests_build = PrefixTest(env, args, TESTPROGFileName, SOURCES)
+AddDependency(args,
+    TESTPROGFileName,       #current program
+    PROGFileName,           #dependency: just build shared lib
+    args['SCONSCRIPT_PATH'] #path to the dependency PROGFileName
+)
+Default(tests_build);
