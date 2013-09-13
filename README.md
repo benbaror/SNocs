@@ -9,7 +9,7 @@ If you found SCons too low level then Snocs will help you to rise the level of a
 2. You can set dependencies in project's SConscript and snocs will automatically call dependent SConscripts.
 3. Snocs helps you with choosing compiler, platform and configuration for your build.
 4. Enables you to setup Unit tests for your project.
-5. Integrated into golang Projects directory structure. (http://golang.org/doc/code.html)
+5. Integrated into golang Projects sources directory structure. (http://golang.org/doc/code.html)
 6. Can be used with another Projects directory structure, simply edit the builder.py.
 
 Usage:
