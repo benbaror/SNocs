@@ -30,6 +30,6 @@ Available options:
     compiler={g++,mingw,vc9,vc10,vc11,vc11exp}
     configuration={Debug,Release}
     platform={x86,Win32,x64} # Win32 is an alias to x86
-    verbose=1 # enables scons output
+    verbose=1 # enables scons debug output
 
 Other options could be SCons specific. If you want to change default path to the Projects directory please see the builder.py file and PROJECTS_ROOT_PATH variable. During 'test' phase snocs updates LD_LIBRARY_PATH local copy to provide of shared libraries
