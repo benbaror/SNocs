@@ -21,7 +21,7 @@ args['prj_env'].Append(
     CPPDEFINES = ['SnocsTemplateExports'], #define for export functions from shared lib
     CCFLAGS = []
 )
-prj_build = PrefixSharedLibrary(env, args, PROGFileName, SOURCES )
+prj_build = PrefixSharedLibrary(args, PROGFileName, SOURCES )
 Default(prj_build);
 
 #--------------------------------------
@@ -33,7 +33,7 @@ SOURCES = PrefixSources(args, 'tests', [
     'possible_templates_test_main.c'
 ])
 args['prj_env'].Append(CPPPATH = [os.path.join(args['SCONSCRIPT_PATH'],'include')])
-tests_build = PrefixTest(env, args, TESTPROGFileName, SOURCES)
+tests_build = PrefixTest(args, TESTPROGFileName, SOURCES)
 AddDependency(args,
     TESTPROGFileName,       #current program
     PROGFileName,           #dependency: just build shared lib

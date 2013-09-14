@@ -16,7 +16,7 @@ import shutil
 # Ref:
 #   Credit grieve and his local SCons guru for this: 
 #   http://stackoverflow.com/questions/279860/how-do-i-get-projects-to-place-their-build-output-into-the-same-directory-with
-def PrefixProgram(env, args, trgt, srcs):
+def PrefixProgram(args, trgt, srcs):
     linkom = None
     if args['MSVC_VERSION'] != None and float(args['MSVC_VERSION'].translate(None, 'Exp')) < 11:
         linkom = 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;1'
@@ -26,48 +26,45 @@ def PrefixProgram(env, args, trgt, srcs):
     args['APP_BUILD'][targetFullPath] = args['prj_env'].Program(
         target = os.path.join(args['BIN_DIR'], trgt), 
         source = srcs, 
-        LINKCOM  = [env['LINKCOM'], linkom]
+        LINKCOM  = [args['prj_env']['LINKCOM'], linkom]
     )
-    env.Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath])#setup install directory
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
 
     return args['APP_BUILD'][targetFullPath]
 
-def PrefixTest(env, args, trgt, srcs):
+def PrefixTest(args, trgt, srcs):
     linkom = None
     if args['MSVC_VERSION'] != None and float(args['MSVC_VERSION'].translate(None, 'Exp')) < 11:
         linkom = 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;1'
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
-    args['APP_BUILD'][targetFullPath] = args['prj_env'].Program(target = os.path.join(args['BIN_DIR'], trgt), source = srcs, LINKCOM  = [env['LINKCOM'], linkom])
-    env.Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath])#setup install directory
+    args['APP_BUILD'][targetFullPath] = args['prj_env'].Program(target = os.path.join(args['BIN_DIR'], trgt), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom])
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
+
     testPassedFullPath = os.path.join(args['SCONSCRIPT_PATH'],args['PassedTestsOutputFileName'])
-    env.Test(testPassedFullPath, args['APP_BUILD'][targetFullPath])
-    env.Alias("test", testPassedFullPath)
-    env.Alias("install", testPassedFullPath)
+    args['TEST_ALIASES'].append(args['prj_env'].Test(testPassedFullPath, args['APP_BUILD'][targetFullPath]))
 
     return args['APP_BUILD'][targetFullPath]
 # Similar to PrefixProgram above, except for Library
-def PrefixLibrary(env, args, trgt, srcs):
+def PrefixLibrary(args, trgt, srcs):
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
     args['APP_BUILD'][targetFullPath] = args['prj_env'].Library(target = os.path.join(args['BIN_DIR'], trgt), source = srcs)
-    env.Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath])#setup install directory
-
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][trgt]
     
 # Similar to PrefixProgram above, except for SharedLibrary
-def PrefixSharedLibrary(env, args, trgt, srcs):
+def PrefixSharedLibrary(args, trgt, srcs):
     linkom = None
     if args['MSVC_VERSION'] != None and float(args['MSVC_VERSION'].translate(None, 'Exp')) < 11:
         linkom = 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;2'
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
-    args['APP_BUILD'][targetFullPath] = args['prj_env'].SharedLibrary(target = os.path.join(args['BIN_DIR'], trgt), source = srcs, LINKCOM  = [env['LINKCOM'], linkom]) 
-    env.Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath])#setup install directory
-
+    args['APP_BUILD'][targetFullPath] = args['prj_env'].SharedLibrary(target = os.path.join(args['BIN_DIR'], trgt), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom]) 
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][targetFullPath]
 
 def PrefixFilename(filename, extensions):

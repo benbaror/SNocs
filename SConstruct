@@ -20,7 +20,6 @@ env = Environment(
     ENV = os.environ
 )
 env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['INSTALL_PATH']).abspath)
-env.Alias('install', args['INSTALL_PATH'])#run env.Install when install command provided in command line
 
 Progress('Evaluating $TARGET\n')
 env.Decider( 'MD5-timestamp' )          # For speed, use timestamps for change, followed by MD5
@@ -52,7 +51,11 @@ if args.get('CROSSPROJECT_DEPENDENCIES')!=None:
                 SConscript(args['SCONSCRIPT'])
                 args['CROSSPROJECT_DEPENDENCIES'][dep] = ""
                 break
-                
+Alias('test', args['TEST_ALIASES'])#run env.Install when install command provided in command line
+args['INSTALL_ALIASES'].append( args['TEST_ALIASES'] )
+Alias('install', args['INSTALL_ALIASES'])#run env.Install when install command provided in command line
+print "args['INSTALL_ALIASES'] size: "+str(len(args['INSTALL_ALIASES']))
+print "args['TEST_ALIASES'] size: "+str(len(args['TEST_ALIASES']))
 #--------------------------------------
 #           Setting scons require()
 #--------------------------------------

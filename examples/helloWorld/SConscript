@@ -22,7 +22,7 @@ args['prj_env'].Append(
     CPPDEFINES = [],
     CCFLAGS = []
 )
-prj_build = PrefixTest(env, args, PROGFileName, SOURCES )
+prj_build = PrefixTest(args, PROGFileName, SOURCES )
 Default(prj_build);
 
 #this is just a testing of cross project dependencies
