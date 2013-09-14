@@ -40,4 +40,4 @@ Examples:
 
 If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. 
 
-During test phase of building, SNocs extends it's LD_LIBRARY_PATH to provide searching for shared libraries
+During test phase of building, SNocs extends it's LD_LIBRARY_PATH and PATH variables to provide searching for shared libraries
