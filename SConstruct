@@ -20,7 +20,8 @@ env = Environment(
     ENV = os.environ
 )
 env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['INSTALL_PATH']).abspath)
-
+env.AppendENVPath('PATH', Dir(args['INSTALL_PATH']).abspath)
+                
 Progress('Evaluating $TARGET\n')
 env.Decider( 'MD5-timestamp' )          # For speed, use timestamps for change, followed by MD5
 # Export this environment for use by the SConscript files
@@ -33,6 +34,8 @@ Export( 'env', 'args' )
 args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(args['SCONSCRIPT']))
 args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], 'bin', args['configuration'])            
 env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
+env.AppendENVPath('PATH', Dir(args['BIN_DIR']).abspath)
+                
 #start main build
 SConscript( args['SCONSCRIPT'] )
 #Include crossproject dependencies
@@ -47,6 +50,7 @@ if args.get('CROSSPROJECT_DEPENDENCIES')!=None:
                 args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(args['SCONSCRIPT']))
                 args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], 'bin', args['configuration'])            
                 env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
+                env.AppendENVPath('PATH', Dir(args['BIN_DIR']).abspath)
                 #start building dependency
                 SConscript(args['SCONSCRIPT'])
                 args['CROSSPROJECT_DEPENDENCIES'][dep] = ""

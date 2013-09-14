@@ -78,10 +78,10 @@ def AddDependency(args, prog, dep, deppath):
     AddOrdering(args,prog,dep,deppath)
     args['prj_env'].Append(
         CPPPATH = [
-            os.path.join(args['SCONSCRIPT_PATH'],'include')
+            os.path.join(deppath,'include')
         ],
         LIBPATH = [
-            os.path.join(args['SCONSCRIPT_PATH'],'bin',args['configuration'])
+            os.path.join(deppath,'bin',args['configuration'])
         ],
         LIBS = [dep]
     )
