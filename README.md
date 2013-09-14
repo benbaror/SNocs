@@ -19,7 +19,7 @@ Usage:
 snocs [SconscriptFilePath] [options]
 
 SconscriptFilePath can be absolute or relative to current path or 
-relative to workspace root directory e.g.:
+relative to workspace sources root directory e.g.:
 
     snocs github.com\osblinnikov\SNocs\examples\helloWorld compiler=vc9 test
 
