@@ -37,14 +37,16 @@ env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
 env.AppendENVPath('PATH', Dir(args['BIN_DIR']).abspath)
                 
 #start main build
+print args['SCONSCRIPT']
 SConscript( args['SCONSCRIPT'] )
 #Include crossproject dependencies
+dictLaunchedDependencies = {}
 if args.get('CROSSPROJECT_DEPENDENCIES')!=None:
     foundNewDependency = 1
     while foundNewDependency == 1:
         foundNewDependency = 0
         for dep in args['CROSSPROJECT_DEPENDENCIES']:
-            if args['CROSSPROJECT_DEPENDENCIES'][dep] != "":
+            if args['CROSSPROJECT_DEPENDENCIES'][dep] not in dictLaunchedDependencies:
                 foundNewDependency = 1
                 args['SCONSCRIPT'] = os.path.join(args['CROSSPROJECT_DEPENDENCIES'][dep],'Sconscript')
                 args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(args['SCONSCRIPT']))
@@ -52,8 +54,9 @@ if args.get('CROSSPROJECT_DEPENDENCIES')!=None:
                 env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
                 env.AppendENVPath('PATH', Dir(args['BIN_DIR']).abspath)
                 #start building dependency
+                print args['SCONSCRIPT']
                 SConscript(args['SCONSCRIPT'])
-                args['CROSSPROJECT_DEPENDENCIES'][dep] = ""
+                dictLaunchedDependencies[args['CROSSPROJECT_DEPENDENCIES'][dep]] = 1
                 break
 Alias('test', args['TEST_ALIASES'])#run env.Install when install command provided in command line
 args['INSTALL_ALIASES'].append( args['TEST_ALIASES'] )
