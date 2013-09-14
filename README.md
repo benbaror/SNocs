@@ -12,7 +12,7 @@ SNocs simplifies SCons project configuration:
 3. SNocs allows you to choose compiler, platform and configuration in command line.
 4. SNocs enables you to set up Unit tests for the project.
 5. SNocs is integrated into golang workspace structure. (http://golang.org/doc/code.html)
-6. It can be used with another projects workspace structure, by editing builder.py.
+6. It can be used with another projects workspace structure
 
 Usage:
 
