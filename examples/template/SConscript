@@ -32,7 +32,14 @@ args['prj_env'] = env.Clone()          # Clone it so we don't make changes to th
 SOURCES = PrefixSources(args, 'tests', [
     'possible_templates_test_main.c'
 ])
-args['prj_env'].Append(CPPPATH = [os.path.join(args['SCONSCRIPT_PATH'],'include')])
+args['prj_env'].Append(
+    LIBPATH = [],#snocs dependencies can be managed via AddDependency function
+    LIBS = [],#snocs dependencies can be managed via AddDependency function
+    LINKFLAGS = [],
+    CPPPATH = [os.path.join(args['SCONSCRIPT_PATH'],'include')],
+    CPPDEFINES = ['SnocsTemplateExports'], #define for export functions from shared lib
+    CCFLAGS = []
+)
 tests_build = PrefixTest(args, TESTPROGFileName, SOURCES)
 AddDependency(args,
     TESTPROGFileName,       #current program
