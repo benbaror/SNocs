@@ -90,9 +90,18 @@ def AddOrdering(args, prog, dep, deppath):
     prog = os.path.join(args['SCONSCRIPT_PATH'],prog)
     if args['APP_DEPENDENCIES'].get(prog) == None:
         args['APP_DEPENDENCIES'][prog] = [];
-    args['APP_DEPENDENCIES'][prog].append(os.path.join(deppath,dep))
+    depFullPath = os.path.join(deppath,dep)
+    args['APP_DEPENDENCIES'][prog].append(depFullPath)
     if deppath != args['SCONSCRIPT_PATH']:
         if args.get('CROSSPROJECT_DEPENDENCIES') == None:
             args['CROSSPROJECT_DEPENDENCIES'] = {};
-        if args['CROSSPROJECT_DEPENDENCIES'].get(dep) == None:
-            args['CROSSPROJECT_DEPENDENCIES'][dep] = deppath
+        if args['CROSSPROJECT_DEPENDENCIES'].get(deppath) == None:
+            args['CROSSPROJECT_DEPENDENCIES'][deppath] = dep
+            
+def AddScript(args, dep, deppath):
+    depFullPath = os.path.join(deppath,dep)
+    if deppath != args['SCONSCRIPT_PATH']:
+        if args.get('CROSSPROJECT_DEPENDENCIES') == None:
+            args['CROSSPROJECT_DEPENDENCIES'] = {};
+        if args['CROSSPROJECT_DEPENDENCIES'].get(deppath) == None:
+            args['CROSSPROJECT_DEPENDENCIES'][deppath] = dep

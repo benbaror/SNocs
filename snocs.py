@@ -2,6 +2,7 @@
 import os.path
 import sys
 import os
+import imp
 from builder import PROJECTS_ROOT_PATH
 from builder import printHelp
 Sconscript = None
@@ -44,6 +45,10 @@ if len(sys.argv) > firstRealArgI + 1:
     for i in range(firstRealArgI+1, len(sys.argv)):
         if sys.argv[i] == '-h':
             printHelp()
+            exit()
+        if sys.argv[i] == '-r':
+            os.system("python "+Sconscript+" "+os.path.join(PROJECTS_ROOT_PATH,'src'))
+            #imp.load_source('Sconscript',os.path.dirname(Sconscript))
             exit()
         OTHER_ARGUMENTS+=" "+sys.argv[i]
         

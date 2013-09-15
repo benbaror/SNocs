@@ -45,10 +45,10 @@ if args.get('CROSSPROJECT_DEPENDENCIES')!=None:
     foundNewDependency = 1
     while foundNewDependency == 1:
         foundNewDependency = 0
-        for dep in args['CROSSPROJECT_DEPENDENCIES']:
-            if args['CROSSPROJECT_DEPENDENCIES'][dep] not in dictLaunchedDependencies:
+        for depFullPath in args['CROSSPROJECT_DEPENDENCIES']:
+            if depFullPath not in dictLaunchedDependencies:
                 foundNewDependency = 1
-                args['SCONSCRIPT'] = os.path.join(args['CROSSPROJECT_DEPENDENCIES'][dep],'Sconscript')
+                args['SCONSCRIPT'] = os.path.join(depFullPath,'Sconscript')
                 args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(args['SCONSCRIPT']))
                 args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], 'bin', args['configuration'])            
                 env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
@@ -56,7 +56,7 @@ if args.get('CROSSPROJECT_DEPENDENCIES')!=None:
                 #start building dependency
                 print args['SCONSCRIPT']
                 SConscript(args['SCONSCRIPT'])
-                dictLaunchedDependencies[args['CROSSPROJECT_DEPENDENCIES'][dep]] = 1
+                dictLaunchedDependencies[depFullPath] = 1
                 break
 Alias('test', args['TEST_ALIASES'])#run env.Install when install command provided in command line
 args['INSTALL_ALIASES'].append( args['TEST_ALIASES'] )
