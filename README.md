@@ -3,7 +3,7 @@ SNocs
 
 SNocs is a wrapper for SCons Software Construction tool (www.scons.org)
 
-If you find SCons low level system then SNocs will help you to boost your efficiency in C/C++ development
+If you find SCons projects too verbose then SNocs wraps SCons for you
 
 SNocs simplifies SCons project configuration:
 
