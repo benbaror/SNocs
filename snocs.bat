@@ -6,5 +6,5 @@ echo NOT WINDOW NT SO UNDEFINED BEHAVIOUR YET
 
 
 :WinNT
-set scriptname=%~dp0%~n0.py
+set scriptname=%~dp0%~n0
 python "%scriptname%" %*
