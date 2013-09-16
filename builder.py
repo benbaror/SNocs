@@ -11,6 +11,7 @@ PROJECTS_ROOT_PATH = os.path.abspath(os.path.dirname(__file__)+'/../../../../')
 def prepare_args(ARGUMENTS):
     #--------command line arguments------------
     args = {}
+    args['CLEANING_STAGE'] = ARGUMENTS.get('cleaning', '0')
     args['SCONSCRIPT'] = ARGUMENTS.get('sconscript', None)
     if args['SCONSCRIPT'] == None or args['SCONSCRIPT']=="":
         print "Sconscript is not specified!"
@@ -103,6 +104,8 @@ def printHelp():
     print "  platform={x86,Win32,x64} # Win32 is an alias to x86"
     print "  verbose=1 # enables scons debug output"
     print "  -r        # execute SconscriptFilePath/SConscript as Python script"
+    print "  -c        # execute cleaning only for chosen SConscript, not dependent libs"
+    print "  -call     # execute cleaning for current and all dependent projects"
     print "**********************"
     print "Other options could be SCons specific."
     print "  If you want to change default path to the Projects directory please see the"

@@ -99,7 +99,6 @@ def AddOrdering(args, prog, dep, deppath):
             args['CROSSPROJECT_DEPENDENCIES'][deppath] = dep
             
 def AddScript(args, dep, deppath):
-    depFullPath = os.path.join(deppath,dep)
     if deppath != args['SCONSCRIPT_PATH']:
         if args.get('CROSSPROJECT_DEPENDENCIES') == None:
             args['CROSSPROJECT_DEPENDENCIES'] = {};

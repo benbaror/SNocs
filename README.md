@@ -30,7 +30,9 @@ Available SNocs options:
     platform={x86,Win32,x64} # Win32 is an alias to x86
     verbose=1 # enables scons debug output
     -r        # execute SconscriptFilePath/SConscript as Python script without SCons
-
+    -c        # execute cleaning only for chosen SConscript, not dependent libs
+    -call     # execute cleaning for current and all dependent projects
+    
 Other options could be specific for SCons. 
 
 Examples:

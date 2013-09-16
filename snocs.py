@@ -41,6 +41,7 @@ else:
         exit()
     
 OTHER_ARGUMENTS = ""
+ONLY_PROJECT_CLEANING_STAGE = 0
 if len(sys.argv) > firstRealArgI + 1:
     for i in range(firstRealArgI+1, len(sys.argv)):
         if sys.argv[i] == '-h':
@@ -50,6 +51,18 @@ if len(sys.argv) > firstRealArgI + 1:
             os.system("python "+Sconscript+" "+os.path.join(PROJECTS_ROOT_PATH,'src'))
             #imp.load_source('Sconscript',os.path.dirname(Sconscript))
             exit()
-        OTHER_ARGUMENTS+=" "+sys.argv[i]
-        
+        if sys.argv[i] == '-c':
+            print "ONLY CURRENT PROJECT WILL BE CLEAN"
+            ONLY_PROJECT_CLEANING_STAGE = 1
+            
+        if sys.argv[i] == '-call':
+            print "ALL DEPENDENCIES WILL BE CLEAN"
+            OTHER_ARGUMENTS+=" -c"
+        else:
+            #FOR ALL EXCEPT -call
+            OTHER_ARGUMENTS+=" "+sys.argv[i]
+    #end for arguments
+    
+if ONLY_PROJECT_CLEANING_STAGE == 1:
+    OTHER_ARGUMENTS+=" cleaning=1"
 os.system("scons -f "+os.path.abspath(os.path.dirname(__file__))+"/Sconstruct sconscript="+Sconscript+OTHER_ARGUMENTS)
