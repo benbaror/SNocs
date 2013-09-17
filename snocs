@@ -5,38 +5,38 @@ import os
 import imp
 from builder import PROJECTS_ROOT_PATH
 from builder import printHelp
-Sconscript = None
+SConscript = None
 firstRealArgI = 1
 #in case we don't have any arguments
 if len(sys.argv) <= firstRealArgI:
-    #try to find the sconscript right here
-    if os.path.exists(os.path.join(os.getcwd(),"Sconscript")):
+    #try to find the SConscript right here
+    if os.path.exists(os.path.join(os.getcwd(),"SConscript")):
         firstRealArgI = firstRealArgI - 1
-        Sconscript = os.path.join(os.getcwd(),"Sconscript")
+        SConscript = os.path.join(os.getcwd(),"SConscript")
     else:
-        print "No Sconscript files found"
+        print "No SConscript files found"
         printHelp()
         exit()
 else:
-    #try to find the sconscript right here
-    if os.path.exists(os.path.join(os.getcwd(),"Sconscript")):
+    #try to find the SConscript right here
+    if os.path.exists(os.path.join(os.getcwd(),"SConscript")):
         firstRealArgI = firstRealArgI - 1
-        Sconscript = os.path.join(os.getcwd(),"Sconscript")
-    #try to find the sconscript in the specified absolute path
-    elif os.path.exists(os.path.join(sys.argv[firstRealArgI],"Sconscript")):
-        Sconscript = os.path.join(sys.argv[firstRealArgI],"Sconscript")
-    #try to find the sconscript in the specified relative to current path
-    elif os.path.exists(os.path.join(os.getcwd(),sys.argv[firstRealArgI],"Sconscript")):
-        Sconscript = os.path.join(os.getcwd(),sys.argv[firstRealArgI],"Sconscript")
-    #try to find the sconscript in the specified path from projects src root
-    elif os.path.exists(os.path.join(PROJECTS_ROOT_PATH,'src',sys.argv[firstRealArgI],"Sconscript")):
-        Sconscript = os.path.join(PROJECTS_ROOT_PATH,'src',sys.argv[firstRealArgI],"Sconscript")
+        SConscript = os.path.join(os.getcwd(),"SConscript")
+    #try to find the SConscript in the specified absolute path
+    elif os.path.exists(os.path.join(sys.argv[firstRealArgI],"SConscript")):
+        SConscript = os.path.join(sys.argv[firstRealArgI],"SConscript")
+    #try to find the SConscript in the specified relative to current path
+    elif os.path.exists(os.path.join(os.getcwd(),sys.argv[firstRealArgI],"SConscript")):
+        SConscript = os.path.join(os.getcwd(),sys.argv[firstRealArgI],"SConscript")
+    #try to find the SConscript in the specified path from projects src root
+    elif os.path.exists(os.path.join(PROJECTS_ROOT_PATH,'src',sys.argv[firstRealArgI],"SConscript")):
+        SConscript = os.path.join(PROJECTS_ROOT_PATH,'src',sys.argv[firstRealArgI],"SConscript")
     else:
-        print "No "+os.path.join(os.getcwd(),"Sconscript")
-        print "No "+os.path.join(sys.argv[firstRealArgI],"Sconscript")
-        print "No "+os.path.join(os.getcwd(),sys.argv[firstRealArgI],"Sconscript")
-        print "No "+os.path.join(PROJECTS_ROOT_PATH,'src',sys.argv[firstRealArgI],"Sconscript")
-        print "NO Sconscript files found"
+        print "No "+os.path.join(os.getcwd(),"SConscript")
+        print "No "+os.path.join(sys.argv[firstRealArgI],"SConscript")
+        print "No "+os.path.join(os.getcwd(),sys.argv[firstRealArgI],"SConscript")
+        print "No "+os.path.join(PROJECTS_ROOT_PATH,'src',sys.argv[firstRealArgI],"SConscript")
+        print "NO SConscript files found"
         printHelp()
         exit()
     
@@ -48,8 +48,8 @@ if len(sys.argv) > firstRealArgI + 1:
             printHelp()
             exit()
         if sys.argv[i] == '-r':
-            os.system("python "+Sconscript+" "+os.path.join(PROJECTS_ROOT_PATH,'src'))
-            #imp.load_source('Sconscript',os.path.dirname(Sconscript))
+            os.system("python "+SConscript+" "+os.path.join(PROJECTS_ROOT_PATH,'src'))
+            #imp.load_source('SConscript',os.path.dirname(SConscript))
             exit()
         if sys.argv[i] == '-c':
             print "ONLY CURRENT PROJECT WILL BE CLEAN"
@@ -65,4 +65,4 @@ if len(sys.argv) > firstRealArgI + 1:
     
 if ONLY_PROJECT_CLEANING_STAGE == 1:
     OTHER_ARGUMENTS+=" cleaning=1"
-os.system("scons -f "+os.path.abspath(os.path.dirname(__file__))+"/Sconstruct sconscript="+Sconscript+OTHER_ARGUMENTS)
+os.system("scons -f "+os.path.abspath(os.path.dirname(__file__))+"/Sconstruct SConscript="+SConscript+OTHER_ARGUMENTS)
