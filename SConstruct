@@ -49,7 +49,7 @@ if args['CLEANING_STAGE'] == '0':
             for depFullPath in args['CROSSPROJECT_DEPENDENCIES']:
                 if depFullPath not in dictLaunchedDependencies:
                     foundNewDependency = 1
-                    args['SCONSCRIPT'] = os.path.join(depFullPath,'Sconscript')
+                    args['SCONSCRIPT'] = os.path.join(depFullPath,'SConscript')
                     args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(args['SCONSCRIPT']))
                     args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], 'bin', args['configuration'])            
                     env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
