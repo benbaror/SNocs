@@ -65,4 +65,4 @@ if len(sys.argv) > firstRealArgI + 1:
     
 if ONLY_PROJECT_CLEANING_STAGE == 1:
     OTHER_ARGUMENTS+=" cleaning=1"
-os.system("scons -f "+os.path.abspath(os.path.dirname(__file__))+"/Sconstruct sconscript="+SConscript+OTHER_ARGUMENTS)
+os.system("scons -f "+os.path.abspath(os.path.dirname(__file__))+"/SConstruct sconscript="+SConscript+OTHER_ARGUMENTS)
