@@ -31,3 +31,14 @@ p1 = subprocess.Popen([
     OUTPUT_PATH
 ],cwd=JAVASCRIPTMVC_PATH)
 p1.wait()
+
+
+#POST BUILD OPERATIONS
+os.rename(OUTPUT_PATH+'/production.js', OUTPUT_PATH+'/production.js.tmp')
+
+f1 = open(OUTPUT_PATH+'/production.js.tmp', 'r')
+f2 = open(OUTPUT_PATH+'/production.js', 'w')
+for line in f1:
+    f2.write(line.replace(OUTPUT_PATH, ''))
+f1.close()
+f2.close()
