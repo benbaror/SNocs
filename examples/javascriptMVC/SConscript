@@ -1,0 +1,33 @@
+import os.path
+import sys
+import subprocess
+import platform
+#--------------------------------------
+#           Environment
+#--------------------------------------
+args = {}
+try:
+    Import( 'args' )        # Import the common environment
+except NameError:
+    args['PROJECTS_SRC_PATH'] = os.path.abspath(sys.argv[1])
+    args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(__file__))
+#--------------------------------------
+#             PROJECT
+#--------------------------------------
+JAVASCRIPTMVC_PATH = args['SCONSCRIPT_PATH'] 
+#os.path.join(args['PROJECTS_SRC_PATH'],'github.com','bitovi','javascriptmvc')
+STEAL_BUILD_PATH = os.path.join(JAVASCRIPTMVC_PATH, 'steal', 'buildjs')
+INDEXHTML_PATH = os.path.join(args['SCONSCRIPT_PATH'],'main','index.html')
+OUTPUT_PATH = os.path.join(args['SCONSCRIPT_PATH'],'main_production')
+print "---   Launch Build JavascriptMVC production   ---"
+postfixJsExecutable = ''
+if platform.system() == 'Windows':
+    postfixJsExecutable = '.bat'
+p1 = subprocess.Popen([
+    os.path.join(JAVASCRIPTMVC_PATH,'js'+postfixJsExecutable),
+    STEAL_BUILD_PATH,
+    INDEXHTML_PATH,
+    '-to',
+    OUTPUT_PATH
+],cwd=JAVASCRIPTMVC_PATH)
+p1.wait()
