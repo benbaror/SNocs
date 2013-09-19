@@ -52,11 +52,11 @@ if len(sys.argv) > firstRealArgI + 1:
             #imp.load_source('SConscript',os.path.dirname(SConscript))
             exit()
         if sys.argv[i] == '-c':
-            print "ONLY CURRENT PROJECT WILL BE CLEAN"
+            print "ONLY CURRENT PROJECT WILL BE CLEARED"
             ONLY_PROJECT_CLEANING_STAGE = 1
             
         if sys.argv[i] == '-call':
-            print "ALL DEPENDENCIES WILL BE CLEAN"
+            print "ALL DEPENDENCIES WILL BE CLEARED"
             OTHER_ARGUMENTS+=" -c"
         else:
             #FOR ALL EXCEPT -call
