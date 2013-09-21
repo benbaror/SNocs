@@ -104,3 +104,23 @@ def AddScript(args, dep, deppath):
             args['CROSSPROJECT_DEPENDENCIES'] = {};
         if args['CROSSPROJECT_DEPENDENCIES'].get(deppath) == None:
             args['CROSSPROJECT_DEPENDENCIES'][deppath] = dep
+            
+def AddPthreads(env, args):
+    PATH_TO_PTHREADS_WIN = os.path.join(args['PROJECTS_SRC_PATH'],'sourceware.org','pthreads-win32','dll-latest')
+    if args['MSVC_VERSION'] != None:
+        args['prj_env'].Append(
+            LIBS = ['pthreadVC2'],
+            CPPPATH = [os.path.join(PATH_TO_PTHREADS_WIN,'include')],
+            LIBPATH = [os.path.join(PATH_TO_PTHREADS_WIN,'lib',args['TARGET_ARCH'])]
+        )
+        env.AppendENVPath('PATH', os.path.join(PATH_TO_PTHREADS_WIN,'dll',args['TARGET_ARCH']))
+    elif args['COMPILER_CODE'] == 'mingw':
+        args['prj_env'].Append(
+            LIBS = ['pthreadGC2'],
+            CPPPATH = [os.path.join(PATH_TO_PTHREADS_WIN,'include')],
+            LIBPATH = [os.path.join(PATH_TO_PTHREADS_WIN,'lib',args['TARGET_ARCH'])]
+        )
+        env.AppendENVPath('PATH', os.path.join(PATH_TO_PTHREADS_WIN,'dll',args['TARGET_ARCH']))
+    else:
+        args['prj_env'].Append(LIBS = ['pthread'])
+    
