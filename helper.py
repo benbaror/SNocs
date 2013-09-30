@@ -49,9 +49,9 @@ def PrefixTest(args, trgt, srcs):
 # Similar to PrefixProgram above, except for Library
 def PrefixLibrary(args, trgt, srcs):
     if args['MSVC_PDB']:
-        args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
+        args['prj_env'].Append(PDB = os.path.join( args['LIB_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
-    args['APP_BUILD'][targetFullPath] = args['prj_env'].Library(target = os.path.join(args['BIN_DIR'], trgt), source = srcs)
+    args['APP_BUILD'][targetFullPath] = args['prj_env'].Library(target = os.path.join(args['LIB_DIR'], trgt), source = srcs)
     args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'lib'), args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][trgt]
     
@@ -61,9 +61,9 @@ def PrefixSharedLibrary(args, trgt, srcs):
     if args['MSVC_VERSION'] != None and float(args['MSVC_VERSION'].translate(None, 'Exp')) < 11:
         linkom = 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;2'
     if args['MSVC_PDB']:
-        args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
+        args['prj_env'].Append(PDB = os.path.join( args['LIB_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
-    args['APP_BUILD'][targetFullPath] = args['prj_env'].SharedLibrary(target = os.path.join(args['BIN_DIR'], trgt), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom]) 
+    args['APP_BUILD'][targetFullPath] = args['prj_env'].SharedLibrary(target = os.path.join(args['LIB_DIR'], trgt), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom]) 
     args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'lib'), args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][targetFullPath]
 
@@ -81,7 +81,7 @@ def AddDependency(args, prog, dep, deppath):
             os.path.join(deppath,'include')
         ],
         LIBPATH = [
-            os.path.join(deppath,'bin',args['configuration'])
+            os.path.join(deppath,args['configuration'],'lib')
         ],
         LIBS = [dep]
     )

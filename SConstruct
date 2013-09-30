@@ -30,11 +30,8 @@ Export( 'env', 'args' )
 #--------------------------------------
 #           SOLUTION Builders
 #--------------------------------------
-
 args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(args['SCONSCRIPT']))
-args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], 'bin', args['configuration'])            
-env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
-env.AppendENVPath('PATH', Dir(args['BIN_DIR']).abspath)
+preparePaths(env,args)
                 
 #start main build
 print args['SCONSCRIPT']
@@ -51,9 +48,7 @@ if args['CLEANING_STAGE'] == '0':
                     foundNewDependency = 1
                     args['SCONSCRIPT'] = os.path.join(depFullPath,'SConscript')
                     args['SCONSCRIPT_PATH'] = os.path.abspath(os.path.dirname(args['SCONSCRIPT']))
-                    args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], 'bin', args['configuration'])            
-                    env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['BIN_DIR']).abspath)
-                    env.AppendENVPath('PATH', Dir(args['BIN_DIR']).abspath)
+                    preparePaths(env,args)
                     #start building dependency
                     print args['SCONSCRIPT']
                     SConscript(args['SCONSCRIPT'])

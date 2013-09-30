@@ -85,6 +85,12 @@ def builder_unit_test(target, source, env):
         open(str(target[0]),'w').write("FAILED: "+source[0].path+"\n")
         return 1
 
+def preparePaths(env,args):
+    args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], args['configuration'], 'bin')
+    args['LIB_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], args['configuration'], 'lib')  
+    env.AppendENVPath('LD_LIBRARY_PATH', args['LIB_DIR'])
+    env.AppendENVPath('PATH', args['LIB_DIR'])
+
 def printHelp():
     print "**********************"
     print "Snocs is a little wrapper on SCons Software Construction tool (http://www.scons.org/)."
