@@ -47,7 +47,7 @@ def prepare_args(ARGUMENTS):
     args['LINKFLAGS'] = []
     args['CCFLAGS'] = []
     args['LIBS'] = []
-    args['LIBPATH']=[os.path.join(args['INSTALL_PATH'],'lib')]
+    args['LIBPATH']=[]
     args['PROJECTS_SRC_PATH'] = os.path.join(args['PROJECTS_ROOT_PATH'],'src')
     args['CPPPATH'] = [
         args['PROJECTS_SRC_PATH']
