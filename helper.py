@@ -24,8 +24,9 @@ def PrefixProgram(args, srcs):
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + args['ARCHITECTURE_CODE'] + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt + args['ARCHITECTURE_CODE'])
+    targetFullPathToBin = os.path.join(args['BIN_DIR'],trgt+args['ARCHITECTURE_CODE'])
     args['APP_BUILD'][targetFullPath] = args['prj_env'].Program(
-        target = os.path.join(args['BIN_DIR'], trgt + args['ARCHITECTURE_CODE']), 
+        target = targetFullPathToBin, 
         source = srcs, 
         LINKCOM  = [args['prj_env']['LINKCOM'], linkom]
     )
@@ -41,7 +42,8 @@ def PrefixTest(args, srcs):
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + args['ARCHITECTURE_CODE'] + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt + args['ARCHITECTURE_CODE'])
-    args['APP_BUILD'][targetFullPath] = args['prj_env'].Program(target = os.path.join(args['BIN_DIR'], trgt+args['ARCHITECTURE_CODE']), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom])
+    targetFullPathToBin = os.path.join(args['BIN_DIR'],trgt+args['ARCHITECTURE_CODE'])
+    args['APP_BUILD'][targetFullPath] = args['prj_env'].Program(target = targetFullPathToBin, source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom])
     args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'bin'), args['APP_BUILD'][targetFullPath]))#setup install directory
 
     testPassedFullPath = os.path.join(args['SCONSCRIPT_PATH'],args['PassedTestsOutputFileName'])
@@ -55,7 +57,8 @@ def PrefixLibrary(args, srcs):
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['LIB_DIR'], trgt+args['ARCHITECTURE_CODE'] + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt+args['ARCHITECTURE_CODE'])
-    args['APP_BUILD'][targetFullPath] = args['prj_env'].Library(target = os.path.join(args['LIB_DIR'], trgt+args['ARCHITECTURE_CODE']), source = srcs)
+    targetFullPathToBin = os.path.join(args['LIB_DIR'],trgt+args['ARCHITECTURE_CODE'])
+    args['APP_BUILD'][targetFullPath] = args['prj_env'].Library(target = targetFullPathToBin, source = srcs)
     args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'lib'), args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][targetFullPath]
     
@@ -68,7 +71,8 @@ def PrefixSharedLibrary(args, srcs):
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['LIB_DIR'], trgt+args['ARCHITECTURE_CODE'] + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt+args['ARCHITECTURE_CODE'])
-    args['APP_BUILD'][targetFullPath] = args['prj_env'].SharedLibrary(target = os.path.join(args['LIB_DIR'], trgt+args['ARCHITECTURE_CODE']), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom]) 
+    targetFullPathToBin = os.path.join(args['LIB_DIR'],trgt+args['ARCHITECTURE_CODE'])
+    args['APP_BUILD'][targetFullPath] = args['prj_env'].SharedLibrary(target = targetFullPathToBin, source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom]) 
     args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'lib'), args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][targetFullPath]
 
@@ -80,22 +84,28 @@ def PrefixSources(args, srcdir, srcs):
     return  [os.path.join(args['SCONSCRIPT_PATH'],srcdir, x) for x in srcs]
 
 def AddDependencyPc(args, dep, deppath):
-    prog = args['PROGFileName']
+    args['prj_env'].AppendENVPath('PKG_CONFIG_PATH', [deppath])
+    args['prj_env'].Append(LIBPATH = [os.path.join(deppath,args['configuration'],'lib')])
     if deppath != None:
-        args['prj_env'].AppendENVPath('PKG_CONFIG_PATH', [deppath])
         args['prj_env'].ParseConfig('pkg-config'+
-            ' --define-variable=prefix='+deppath+' --define-variable=configuration='+args['configuration']+
-            ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-            ' --print-errors  --cflags --libs '+dep
-        )
-        args['prj_env'].Append(LIBPATH = [' `pkg-config --define-variable=prefix='+deppath+' --variable=libdir '+dep+'` '])
+                ' --define-variable=prefix='+deppath.replace('\\','/')+
+                ' --define-variable=configuration='+args['configuration']+
+                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+                ' --print-errors  --cflags '+dep)
+        args['prj_env'].ParseConfig('pkg-config'+
+                ' --define-variable=prefix='+deppath.replace('\\','/')+
+                ' --define-variable=configuration='+args['configuration']+
+                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+                ' --print-errors  --libs '+dep)
     else:
         args['prj_env'].ParseConfig('pkg-config'+
-            ' --define-variable=configuration='+args['configuration']+
-            ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-            ' --print-errors  --cflags --libs '+dep
-        )
-        args['prj_env'].Append(LIBPATH = [' `pkg-config --variable=libdir '+dep+'` '])
+                ' --define-variable=configuration='+args['configuration']+
+                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+                ' --print-errors  --cflags '+dep)
+        args['prj_env'].ParseConfig('pkg-config'+
+                ' --define-variable=configuration='+args['configuration']+
+                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+                ' --print-errors  --libs '+dep)
 
 def AddDependency(args, dep, deppath):
     AddOrdering(args,dep,deppath)

@@ -87,7 +87,7 @@ def builder_unit_test(target, source, env):
 
 def preparePaths(env,args):
     args['BIN_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], args['configuration'], 'bin')
-    args['LIB_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], args['configuration'], 'lib')  
+    args['LIB_DIR'] = os.path.join(args['SCONSCRIPT_PATH'], args['configuration'], 'lib')
     env.AppendENVPath('LD_LIBRARY_PATH', args['LIB_DIR'])
     env.AppendENVPath('PATH', args['LIB_DIR'])
 
