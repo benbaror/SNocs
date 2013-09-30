@@ -16,7 +16,8 @@ import shutil
 # Ref:
 #   Credit grieve and his local SCons guru for this: 
 #   http://stackoverflow.com/questions/279860/how-do-i-get-projects-to-place-their-build-output-into-the-same-directory-with
-def PrefixProgram(args, trgt, srcs):
+def PrefixProgram(args, srcs):
+    trgt = args['PROGFileName']
     linkom = None
     if args['MSVC_VERSION'] != None and float(args['MSVC_VERSION'].translate(None, 'Exp')) < 11:
         linkom = 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;1'
@@ -32,7 +33,8 @@ def PrefixProgram(args, trgt, srcs):
 
     return args['APP_BUILD'][targetFullPath]
 
-def PrefixTest(args, trgt, srcs):
+def PrefixTest(args, srcs):
+    trgt = args['PROGFileName']
     linkom = None
     if args['MSVC_VERSION'] != None and float(args['MSVC_VERSION'].translate(None, 'Exp')) < 11:
         linkom = 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;1'
@@ -48,7 +50,8 @@ def PrefixTest(args, trgt, srcs):
     return args['APP_BUILD'][targetFullPath]
 
 # Similar to PrefixProgram above, except for Library
-def PrefixLibrary(args, trgt, srcs):
+def PrefixLibrary(args, srcs):
+    trgt = args['PROGFileName']
     if args['MSVC_PDB']:
         args['prj_env'].Append(PDB = os.path.join( args['LIB_DIR'], trgt+args['ARCHITECTURE_CODE'] + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt+args['ARCHITECTURE_CODE'])
@@ -57,7 +60,8 @@ def PrefixLibrary(args, trgt, srcs):
     return args['APP_BUILD'][targetFullPath]
     
 # Similar to PrefixProgram above, except for SharedLibrary
-def PrefixSharedLibrary(args, trgt, srcs):
+def PrefixSharedLibrary(args, srcs):
+    trgt = args['PROGFileName']
     linkom = None
     if args['MSVC_VERSION'] != None and float(args['MSVC_VERSION'].translate(None, 'Exp')) < 11:
         linkom = 'mt.exe -nologo -manifest ${TARGET}.manifest -outputresource:$TARGET;2'
@@ -75,7 +79,8 @@ def PrefixFilename(filename, extensions):
 def PrefixSources(args, srcdir, srcs):
     return  [os.path.join(args['SCONSCRIPT_PATH'],srcdir, x) for x in srcs]
 
-def AddDependencyPc(args, prog, dep, deppath):
+def AddDependencyPc(args, dep, deppath):
+    prog = args['PROGFileName']
     if deppath != None:
         args['prj_env'].AppendENVPath('PKG_CONFIG_PATH', [deppath])
         args['prj_env'].ParseConfig('pkg-config'+
@@ -92,11 +97,12 @@ def AddDependencyPc(args, prog, dep, deppath):
         )
         args['prj_env'].Append(LIBPATH = [' `pkg-config --variable=libdir '+dep+'` '])
 
-def AddDependency(args, prog, dep, deppath):
-    AddOrdering(args,prog,dep,deppath)
-    AddDependencyPc(args,prog, dep, deppath)
+def AddDependency(args, dep, deppath):
+    AddOrdering(args,dep,deppath)
+    AddDependencyPc(args,dep, deppath)
     
-def AddOrdering(args, prog, dep, deppath):
+def AddOrdering(args, dep, deppath):
+    prog = args['PROGFileName']
     prog = os.path.join(args['SCONSCRIPT_PATH'],prog+args['ARCHITECTURE_CODE'])
     if args['APP_DEPENDENCIES'].get(prog) == None:
         args['APP_DEPENDENCIES'][prog] = [];
