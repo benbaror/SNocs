@@ -33,7 +33,7 @@ def prepare_args(ARGUMENTS):
         args['LINKCOMSTR'] = "Linking $TARGET"
     #--------deploy parameters--------
     args['PROJECTS_ROOT_PATH'] = PROJECTS_ROOT_PATH
-    args['INSTALL_PATH'] = os.path.join(args['PROJECTS_ROOT_PATH'],'bin')
+    args['INSTALL_PATH'] = os.path.join(args['PROJECTS_ROOT_PATH'])
     args['INSTALL_ALIASES'] = [] #here will be the targets for install alias
     args['TEST_ALIASES'] = [] #here will be the targets for test alias
     args['ARCHITECTURE_CODE'] = '_'+args['COMPILER_CODE']+'_'+args['TARGET_ARCH']

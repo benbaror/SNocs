@@ -19,8 +19,8 @@ env = Environment(
     LINKCOMSTR = args['LINKCOMSTR'],
     ENV = os.environ
 )
-env.AppendENVPath('LD_LIBRARY_PATH', Dir(args['INSTALL_PATH']).abspath)
-env.AppendENVPath('PATH', Dir(args['INSTALL_PATH']).abspath)
+env.AppendENVPath('LD_LIBRARY_PATH', Dir(os.path.join(args['INSTALL_PATH'],'lib')).abspath)
+env.AppendENVPath('PATH', Dir(os.path.join(args['INSTALL_PATH'],'lib')).abspath)
                 
 Progress('Evaluating $TARGET\n')
 env.Decider( 'MD5-timestamp' )          # For speed, use timestamps for change, followed by MD5

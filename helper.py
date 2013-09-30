@@ -28,7 +28,7 @@ def PrefixProgram(args, trgt, srcs):
         source = srcs, 
         LINKCOM  = [args['prj_env']['LINKCOM'], linkom]
     )
-    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'bin'), args['APP_BUILD'][targetFullPath]))#setup install directory
 
     return args['APP_BUILD'][targetFullPath]
 
@@ -40,7 +40,7 @@ def PrefixTest(args, trgt, srcs):
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
     args['APP_BUILD'][targetFullPath] = args['prj_env'].Program(target = os.path.join(args['BIN_DIR'], trgt), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom])
-    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'bin'), args['APP_BUILD'][targetFullPath]))#setup install directory
 
     testPassedFullPath = os.path.join(args['SCONSCRIPT_PATH'],args['PassedTestsOutputFileName'])
     args['TEST_ALIASES'].append(args['prj_env'].Test(testPassedFullPath, args['APP_BUILD'][targetFullPath]))
@@ -52,7 +52,7 @@ def PrefixLibrary(args, trgt, srcs):
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
     args['APP_BUILD'][targetFullPath] = args['prj_env'].Library(target = os.path.join(args['BIN_DIR'], trgt), source = srcs)
-    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'lib'), args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][trgt]
     
 # Similar to PrefixProgram above, except for SharedLibrary
@@ -64,7 +64,7 @@ def PrefixSharedLibrary(args, trgt, srcs):
         args['prj_env'].Append(PDB = os.path.join( args['BIN_DIR'], trgt + '.pdb' ))
     targetFullPath = os.path.join(args['SCONSCRIPT_PATH'],trgt)
     args['APP_BUILD'][targetFullPath] = args['prj_env'].SharedLibrary(target = os.path.join(args['BIN_DIR'], trgt), source = srcs, LINKCOM  = [args['prj_env']['LINKCOM'], linkom]) 
-    args['INSTALL_ALIASES'].append(args['prj_env'].Install(args['INSTALL_PATH'], args['APP_BUILD'][targetFullPath]))#setup install directory
+    args['INSTALL_ALIASES'].append(args['prj_env'].Install(os.path.join(args['INSTALL_PATH'],'lib'), args['APP_BUILD'][targetFullPath]))#setup install directory
     return args['APP_BUILD'][targetFullPath]
 
 def PrefixFilename(filename, extensions):
