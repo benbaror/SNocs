@@ -8,11 +8,8 @@ Import( 'env', 'args' )        # Import the common environment
 #--------------------------------------
 #            PROJECT
 #--------------------------------------
-PROGFileName = 'SnocsTemplateTest'+args['ARCHITECTURE_CODE']
+args['PROGFileName'] = PROGFileName = 'SnocsTemplateTest'
 args['prj_env'] = env.Clone()          # Clone it so we don't make changes to the global one
-SOURCES =  PrefixSources(args, 'src', [
-    'possible_templates_test.c'
-])
 args['prj_env'].Append(
     LIBPATH = [],#snocs dependencies can be managed via AddDependency function
     LIBS = [],#snocs dependencies can be managed via AddDependency function
@@ -21,17 +18,15 @@ args['prj_env'].Append(
     CPPDEFINES = ['SnocsTemplateExports'], #define for export functions from shared lib
     CCFLAGS = []
 )
-prj_build = PrefixSharedLibrary(args, PROGFileName, SOURCES )
-Default(prj_build);
+Default(PrefixSharedLibrary(args, PrefixSources(args, 'src', [
+    'possible_templates_test.c'
+])))
 
 #--------------------------------------
 #             TESTS
 #--------------------------------------
-TESTPROGFileName = PROGFileName+"_test"
+args['PROGFileName'] = PROGFileName+"_test"
 args['prj_env'] = env.Clone()          # Clone it so we don't make changes to the global one
-SOURCES = PrefixSources(args, 'tests', [
-    'possible_templates_test_main.c'
-])
 args['prj_env'].Append(
     LIBPATH = [],#snocs dependencies can be managed via AddDependency function
     LIBS = [],#snocs dependencies can be managed via AddDependency function
@@ -40,10 +35,10 @@ args['prj_env'].Append(
     CPPDEFINES = ['SnocsTemplateExports'], #define for export functions from shared lib
     CCFLAGS = []
 )
-tests_build = PrefixTest(args, TESTPROGFileName, SOURCES)
+Default(PrefixTest(args, PrefixSources(args, 'tests', [
+    'possible_templates_test_main.c'
+])))
 AddDependency(args,
-    TESTPROGFileName,       #current program
     PROGFileName,           #dependency: just build shared lib
     args['SCONSCRIPT_PATH'] #path to the dependency PROGFileName
 )
-Default(tests_build);

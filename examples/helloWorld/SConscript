@@ -9,11 +9,8 @@ Import( 'env', 'args' )        # Import the common environment
 #--------------------------------------
 #            PROJECT
 #--------------------------------------
-PROGFileName = 'SnocsHelloWorld'+args['ARCHITECTURE_CODE']
+args['PROGFileName'] = PROGFileName = 'SnocsHelloWorld'
 args['prj_env'] = env.Clone()          # Clone it so we don't make changes to the global one
-SOURCES =  PrefixSources(args, 'src', [
-    'main.c'
-])
 args['prj_env'].Append(
     LIBPATH = [],#snocs dependencies can be managed via AddDependency function
     LIBS = [],#snocs dependencies can be managed via AddDependency function
@@ -22,24 +19,12 @@ args['prj_env'].Append(
     CPPDEFINES = [],
     CCFLAGS = []
 )
-prj_build = PrefixTest(args, PROGFileName, SOURCES )
-Default(prj_build);
-
-#this is just a testing of cross project dependencies
-#AddDependency(args,
-#    PROGFileName,
-#    'SnocsTemplateTest'+args['ARCHITECTURE_CODE'],
-#    os.path.join(os.path.abspath(args['SCONSCRIPT_PATH']+'/../'),'template')
-#)#this function automatically includes the .lib (.a) library
-
-
-
+Default(PrefixTest(args, PrefixSources(args, 'src', [
+    'main.c'
+])))
 #this is just a testing of cross project dependencies
 AddOrdering(args,
-    PROGFileName,#curren project
-    'SnocsTemplateTest'+args['ARCHITECTURE_CODE']+"_test",#ONLY AFTER TEST BUILDS
+    'SnocsTemplateTest_test',#ONLY AFTER TEST BUILDS
     #PATH TO THE PROJECT ABOVE:
-    #os.path.join(os.path.abspath(args['SCONSCRIPT_PATH']+'/../'),'template')
-    #it is better to specify the full path like:
     os.path.join(args['PROJECTS_SRC_PATH'],'github.com','osblinnikov','SNocs','examples','template')
 )#this function orders the build, but not includes the lib fil
