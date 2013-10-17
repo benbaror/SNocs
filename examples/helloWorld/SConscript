@@ -9,15 +9,15 @@ Import( 'env', 'args' )        # Import the common environment
 #--------------------------------------
 #            PROJECT
 #--------------------------------------
-args['PROGFileName'] = PROGFileName = 'SnocsHelloWorld'
+args['PROGFileName'] = 'SnocsHelloWorld'
 args['prj_env'] = env.Clone()          # Clone it so we don't make changes to the global one
 args['prj_env'].Append(
-    LIBPATH = [],#snocs dependencies can be managed via AddDependency function
-    LIBS = [],#snocs dependencies can be managed via AddDependency function
-    LINKFLAGS = [],
+    #LIBPATH = [],#snocs dependencies can be managed via AddDependency function
+    #LIBS = [],#snocs dependencies can be managed via AddDependency function
+    #LINKFLAGS = [],
     CPPPATH = [os.path.join(args['SCONSCRIPT_PATH'],'include')],
-    CPPDEFINES = [],
-    CCFLAGS = []
+    #CPPDEFINES = [],
+    #CCFLAGS = []
 )
 Default(PrefixTest(args, PrefixSources(args, 'src', [
     'main.c'
