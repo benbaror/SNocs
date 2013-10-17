@@ -12,6 +12,11 @@ If you find SCons projects too verbose then SNocs wraps SCons for you:
 5. SNocs is integrated into golang workspace structure. (http://golang.org/doc/code.html)
 6. It can be used with another projects workspace structure
 
+If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. 
+
+During test phase of building, SNocs extends it's LD_LIBRARY_PATH and PATH variables to allow searching for shared libraries
+
+
 Usage:
 
 snocs [SconscriptFilePath] [options]
@@ -31,7 +36,7 @@ Available SNocs options:
     -c        # execute cleaning only for chosen SConscript, not dependent libs
     -call     # execute cleaning for current and all dependent projects
     
-Other options could be specific for SCons. 
+Other options could be specific for SCons
 
 Examples:
 
@@ -39,7 +44,3 @@ Examples:
     snocs test -Q           #builds and runs tests with reduced log
     snocs install -c        #cleans installation
     snocs icanchangethisdomain/SomeProjectName -r  # runs SConscirpt as Python script
-
-If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. 
-
-During test phase of building, SNocs extends it's LD_LIBRARY_PATH and PATH variables to provide searching for shared libraries
