@@ -50,5 +50,4 @@ Examples:
 TODO:
 
     --prefix=Installation directory prefix
-    
     pkg-config .pc files generation with the correct prefixes
