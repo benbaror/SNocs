@@ -44,3 +44,9 @@ Examples:
     snocs test -Q           #builds and runs tests with reduced log
     snocs install -c        #cleans installation
     snocs icanchangethisdomain/SomeProjectName -r  # runs SConscirpt as Python script
+    
+    
+    
+TODO:
+    --prefix=Installation directory prefix
+    pkg-config .pc files generation with the correct prefixes
