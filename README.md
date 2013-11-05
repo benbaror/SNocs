@@ -1,16 +1,15 @@
 SNocs
 =====
 
-SNocs is a wrapper for SCons Software Construction tool (www.scons.org)
+SNocs is:
 
-If you find SCons projects too verbose then SNocs wraps SCons for you:
-
-1. SNocs is able to build any project from your's workspace even you are not in project directory.
-2. You can set dependencies in SConscript that SNocs will automatically build them.
-3. SNocs allows you to choose compiler, platform and configuration in command line.
-4. SNocs enables you to set up Unit tests for the project.
-5. SNocs is integrated into golang workspace structure. (http://golang.org/doc/code.html)
-6. It can be used with another projects workspace structure
+0. a wrapper for SCons Software Construction tool (www.scons.org)
+1. is integrated into golang-like workspace structure (http://golang.org/doc/code.html), but can be easily configured
+2. generates pkg-config files and updates them for you
+3. able to build any project from your's workspace even you are not in project directory
+4. makes dependency management easy from SConscript (see HelloWorld example)
+5. allows you to choose compiler, platform and configuration from command line
+6. enables you to set up Unit tests for the project
 
 If you want to change default path to the Projects workspace directory just change 'PROJECTS_ROOT_PATH' variable in 'builder.py' file. 
 
