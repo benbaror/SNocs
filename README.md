@@ -27,7 +27,7 @@ relative to workspace sources root directory e.g.:
 
 Available SNocs options:
 
-    compiler={g++,mingw,vc9,vc10,vc11,vc11exp}
+    compiler={gcc,mingw,vc9,vc10,vc11,vc11exp}
     configuration={Debug,Release}
     platform={x86,Win32,x64} # Win32 is an alias to x86
     verbose=1 # enables scons debug output

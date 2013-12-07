@@ -1,6 +1,6 @@
 import os.path
 import sys
-from gpp import *
+from gcc import *
 from mingw import *
 from default import *
 from vc9 import *
@@ -57,8 +57,8 @@ def prepare_args(ARGUMENTS):
     if args['COMPILER_CODE'] == 'default':
         print "WARNING: compiler was not specified, using default parameters"
         args = prepare_default(args)
-    elif args['COMPILER_CODE'] == 'g++':
-        args = prepare_gpp(args)
+    elif args['COMPILER_CODE'] == 'gcc':
+        args = prepare_gcc(args)
     elif args['COMPILER_CODE'] == 'mingw':
         args = prepare_mingw(args)
     elif args['COMPILER_CODE'] == 'vc9':
@@ -105,7 +105,7 @@ def printHelp():
     print "  snocs github.com\osblinnikov\snocs\examples\helloWorld compiler=vc9 test"
     print "**********************"
     print "Available options:"
-    print "  compiler={g++,mingw,vc9,vc10,vc11,vc11exp}"
+    print "  compiler={gcc,mingw,vc9,vc10,vc11,vc11exp}"
     print "  configuration={Debug,Release}"
     print "  platform={x86,Win32,x64} # Win32 is an alias to x86"
     print "  verbose=1 # enables scons debug output"
