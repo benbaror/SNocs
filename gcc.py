@@ -2,14 +2,14 @@ import os.path
 import sys
 import string
 
-def prepare_gpp(args):
-    args['TOOLS'] = ['default', 'g++']
+def prepare_gcc(args):
+    args['TOOLS'] = ['default', 'gcc']
     args['CPPPATH'].extend([])
     args['CPPDEFINES'].extend([])
     if args['TARGET_ARCH'] == 'x86':
         args['CCFLAGS'].extend(['-m32','-fpic'])
         args['LINKFLAGS'].extend(['-m32'])
-        args['LIBS'].extend(['stdc++'])
+        args['LIBS'].extend([])#'stdc++'
         args['LIBPATH'].extend(['/usr/lib32'])
     elif args['TARGET_ARCH'] == 'x64':
         args['CCFLAGS'].extend(['-m64','-fpic','-Wall','-Werror'])
