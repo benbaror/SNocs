@@ -83,7 +83,7 @@ def PrefixFilename(filename, extensions):
 def PrefixSources(args, srcdir, srcs):
     return  [os.path.join(args['SCONSCRIPT_PATH'],srcdir, x) for x in srcs]
 
-def AddDependencyPc(args, dep, deppath):
+def AddDependencyConfig(args, dep, deppath):
     if deppath == None:
         deppath = '.'
     args['prj_env'].Append(
@@ -94,30 +94,10 @@ def AddDependencyPc(args, dep, deppath):
         CPPDEFINES = [],
         CCFLAGS = []
     )
-    # if deppath != None:
-    #     args['prj_env'].ParseConfig('pkg-config'+
-    #             ' --define-variable=prefix='+deppath.replace('\\','/')+
-    #             ' --define-variable=configuration='+args['configuration']+
-    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-    #             ' --print-errors  --cflags '+dep)
-    #     args['prj_env'].ParseConfig('pkg-config'+
-    #             ' --define-variable=prefix='+deppath.replace('\\','/')+
-    #             ' --define-variable=configuration='+args['configuration']+
-    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-    #             ' --print-errors  --libs '+dep)
-    # else:
-    #     args['prj_env'].ParseConfig('pkg-config'+
-    #             ' --define-variable=configuration='+args['configuration']+
-    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-    #             ' --print-errors  --cflags '+dep)
-    #     args['prj_env'].ParseConfig('pkg-config'+
-    #             ' --define-variable=configuration='+args['configuration']+
-    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-    #             ' --print-errors  --libs '+dep)
 
 def AddDependency(args, dep, deppath):
     AddOrdering(args,dep,deppath)
-    AddDependencyPc(args,dep, deppath)
+    AddDependencyConfig(args,dep, deppath)
     
 def AddOrdering(args, dep, deppath):
     prog = args['PROGFileName']
@@ -160,4 +140,8 @@ def AddPthreads(env, args):
             # LIBS = ['pthread'],
             LINKFLAGS = ['-pthread']
         )
-    
+def AddNetwork(args):
+    if args['MSVC_VERSION'] != None:
+        args['prj_env'].Append(LIBS = ['WSock32'])
+    elif args['COMPILER_CODE'] == 'mingw':
+        args['prj_env'].Append(LIBS = ['ws2_32', 'IPHLPAPI'])
