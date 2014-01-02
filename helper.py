@@ -84,28 +84,36 @@ def PrefixSources(args, srcdir, srcs):
     return  [os.path.join(args['SCONSCRIPT_PATH'],srcdir, x) for x in srcs]
 
 def AddDependencyPc(args, dep, deppath):
-    args['prj_env'].AppendENVPath('PKG_CONFIG_PATH', [deppath])
-    args['prj_env'].Append(LIBPATH = [os.path.join(deppath,args['configuration'],'lib')])
-    if deppath != None:
-        args['prj_env'].ParseConfig('pkg-config'+
-                ' --define-variable=prefix='+deppath.replace('\\','/')+
-                ' --define-variable=configuration='+args['configuration']+
-                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-                ' --print-errors  --cflags '+dep)
-        args['prj_env'].ParseConfig('pkg-config'+
-                ' --define-variable=prefix='+deppath.replace('\\','/')+
-                ' --define-variable=configuration='+args['configuration']+
-                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-                ' --print-errors  --libs '+dep)
-    else:
-        args['prj_env'].ParseConfig('pkg-config'+
-                ' --define-variable=configuration='+args['configuration']+
-                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-                ' --print-errors  --cflags '+dep)
-        args['prj_env'].ParseConfig('pkg-config'+
-                ' --define-variable=configuration='+args['configuration']+
-                ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
-                ' --print-errors  --libs '+dep)
+    if deppath == None:
+        deppath = '.'
+    args['prj_env'].Append(
+        LIBPATH = [os.path.join(deppath,args['configuration'],'lib')],
+        LIBS = [dep+args['ARCHITECTURE_CODE']],
+        LINKFLAGS = [],
+        CPPPATH = [os.path.join(deppath,'include')],
+        CPPDEFINES = [],
+        CCFLAGS = []
+    )
+    # if deppath != None:
+    #     args['prj_env'].ParseConfig('pkg-config'+
+    #             ' --define-variable=prefix='+deppath.replace('\\','/')+
+    #             ' --define-variable=configuration='+args['configuration']+
+    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+    #             ' --print-errors  --cflags '+dep)
+    #     args['prj_env'].ParseConfig('pkg-config'+
+    #             ' --define-variable=prefix='+deppath.replace('\\','/')+
+    #             ' --define-variable=configuration='+args['configuration']+
+    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+    #             ' --print-errors  --libs '+dep)
+    # else:
+    #     args['prj_env'].ParseConfig('pkg-config'+
+    #             ' --define-variable=configuration='+args['configuration']+
+    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+    #             ' --print-errors  --cflags '+dep)
+    #     args['prj_env'].ParseConfig('pkg-config'+
+    #             ' --define-variable=configuration='+args['configuration']+
+    #             ' --define-variable=architecture_code='+args['ARCHITECTURE_CODE']+
+    #             ' --print-errors  --libs '+dep)
 
 def AddDependency(args, dep, deppath):
     AddOrdering(args,dep,deppath)

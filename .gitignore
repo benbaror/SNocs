@@ -1,0 +1,4 @@
+*.pyc
+*.dblite
+Release
+Debug
